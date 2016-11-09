@@ -22,7 +22,6 @@ import org.eclipse.jdt.core.dom.BodyDeclaration;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.EnumConstantDeclaration;
-import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.FieldAccess;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
@@ -105,6 +104,17 @@ public class InJavaImporter extends Importer {
 	private Type unknownType;
 	private UnknownVariable unknownVariable;
 	
+
+	public boolean shouldComputeHashForBehaviouralEntities = true; //TODO
+
+	public boolean isComputingHashForBehaviouralEntities() {
+		return shouldComputeHashForBehaviouralEntities;
+	}
+
+	public void setComputeHashForBehaviouralEntities(boolean shouldComputeHashForBehaviouralEntities) {
+		this.shouldComputeHashForBehaviouralEntities = shouldComputeHashForBehaviouralEntities;
+	}
+
 	private Repository repository;
 	public Repository repository() { return repository; }
 	
@@ -899,6 +909,7 @@ public class InJavaImporter extends Importer {
 				" - " + currentFilePath +
 				" - line " + lineNumber);
 	}
+
 
 	
 }
