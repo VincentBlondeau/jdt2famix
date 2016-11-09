@@ -106,6 +106,17 @@ public class InJavaImporter extends Importer {
 	private Type unknownType;
 	private UnknownVariable unknownVariable;
 	
+
+	public boolean shouldComputeHashForBehaviouralEntities = true; //TODO
+
+	public boolean isComputingHashForBehaviouralEntities() {
+		return shouldComputeHashForBehaviouralEntities;
+	}
+
+	public void setComputeHashForBehaviouralEntities(boolean shouldComputeHashForBehaviouralEntities) {
+		this.shouldComputeHashForBehaviouralEntities = shouldComputeHashForBehaviouralEntities;
+	}
+
 	private Repository repository;
 	public Repository repository() { return repository; }
 	
@@ -935,6 +946,7 @@ public class InJavaImporter extends Importer {
 				" - " + currentFilePath +
 				" - line " + lineNumber);
 	}
+
 
 	
 }
