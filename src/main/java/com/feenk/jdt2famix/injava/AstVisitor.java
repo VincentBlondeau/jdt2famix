@@ -2,6 +2,7 @@ package com.feenk.jdt2famix.injava;
 
 import java.util.Arrays;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jdt.core.dom.ASTVisitor;
@@ -9,6 +10,7 @@ import org.eclipse.jdt.core.dom.AnnotationTypeDeclaration;
 import org.eclipse.jdt.core.dom.AnnotationTypeMemberDeclaration;
 import org.eclipse.jdt.core.dom.AnonymousClassDeclaration;
 import org.eclipse.jdt.core.dom.Assignment;
+import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.CatchClause;
 import org.eclipse.jdt.core.dom.ClassInstanceCreation;
 import org.eclipse.jdt.core.dom.CompilationUnit;
@@ -45,6 +47,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 import org.eclipse.jdt.core.dom.VariableDeclarationStatement;
 import org.eclipse.jdt.core.dom.WhileStatement;
+import org.eclipse.jdt.internal.core.dom.NaiveASTFlattener;
 
 import com.feenk.jdt2famix.model.famix.Access;
 import com.feenk.jdt2famix.model.famix.AnnotationType;
@@ -282,6 +285,7 @@ public class AstVisitor extends ASTVisitor {
 			method = importer.ensureMethodFromMethodDeclaration(node);
 		}
 		method.setIsStub(false);
+		method.setBodyHash(this.computeHashForMethodBody(node));
 		importer.pushOnContainerStack(method);
 		node.parameters().
 			stream().
@@ -291,7 +295,18 @@ public class AstVisitor extends ASTVisitor {
 		importer.ensureCommentFromBodyDeclaration(method, node);
 		return true;
 	}
-	
+
+	private String computeHashForMethodBody(MethodDeclaration node) {
+		if (importer.isComputingHashForBehaviouralEntities()) {
+			// not optimized but will work in a first version
+			Block body = node.getBody();
+			if (body == null)
+				return "0";
+			return DigestUtils.md5Hex(node.getBody().toString().replaceAll("\\r|\\n|\\t", ""));
+		}
+		return "";
+	}
+
 	@Override
 	public void endVisit(MethodDeclaration node) {
 		importer.popFromContainerStack();
