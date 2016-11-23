@@ -9,3 +9,6 @@ target
 /release/
 /gen/
 tmp/
+.metadata
+*.mse
+jdt2famix-import.problems

@@ -64,7 +64,7 @@ public class Main {
 
 			String mseFileName;
 			if (cmd.hasOption("o")) {
-				mseFileName = Paths.get(path.toString(), cmd.getOptionValue("o")).toString();
+				mseFileName = Paths.get( cmd.getOptionValue("o")).toString();
 			} else {
 				mseFileName = path.getName(path.getNameCount() - 1) + ".mse";
 			}
