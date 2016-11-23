@@ -64,23 +64,27 @@ public class Main {
 
 			String mseFileName;
 			if (cmd.hasOption("o")) {
+
 				mseFileName = Paths.get( cmd.getOptionValue("o")).toString();
 			} else {
 				mseFileName = path.getName(path.getNameCount() - 1) + ".mse";
 			}
 
 			// Run the parsing
-			InJavaImporter importer = new InJavaImporter();
 			logger.trace("importing root folder - " + path.toString());
-			importer.run(javaFiles, classpath);
-			logger.trace("exporting - " + mseFileName);
-			importer.exportMSE(mseFileName);
-			logger.trace("done");
-		} catch (ParseException e)
-		{
+			runParsing(classpath, javaFiles, mseFileName);
+		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	public static void runParsing(Classpath classpath, JavaFiles javaFiles, String mseFileName) {
+		InJavaImporter importer = new InJavaImporter();
+		importer.run(javaFiles, classpath);
+		logger.trace("exporting - " + mseFileName);
+		importer.exportMSE(mseFileName);
+		logger.trace("done");
 	}
 
 	/**
