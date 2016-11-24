@@ -3,7 +3,7 @@ target
 .classpath
 
 .project
-
+.metadata
 .settings
 /bin/
 /release/
