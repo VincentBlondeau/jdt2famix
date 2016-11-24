@@ -769,6 +769,7 @@ public class InJavaImporter extends Importer {
 		if (expression instanceof FieldAccess) {
 			FieldAccess access = (FieldAccess) expression;
 			IVariableBinding variableBinding = access.resolveFieldBinding();
+			if(variableBinding != null)
 			return createAccessFromVariableBinding(variableBinding);
 		}
 		return new Access();
@@ -826,10 +827,11 @@ public class InJavaImporter extends Importer {
 	
 	
 	//SOURCE ANCHOR
-	
+
 	/**
-	 * We pass the compilationUnit because this is where the logic of getting the line number is.
-	 * We cannot complain about the sense of humor in this design :)
+	 * We pass the compilationUnit because this is where the logic of getting
+	 * the line number is. We cannot complain about the sense of humor in this
+	 * design :)
 	 */
 	public void createSourceAnchor(SourcedEntity sourcedEntity, ASTNode node, CompilationUnit compilationUnit) {
 		FileAnchor fileAnchor = new FileAnchor();
@@ -841,7 +843,7 @@ public class InJavaImporter extends Importer {
 	}
 
 	//COMMENT
-	
+
 	public void ensureCommentFromBodyDeclaration(SourcedEntity entity, BodyDeclaration node) {
 		if (node.getJavadoc() != null)
 			createBasicComment(entity, node.getJavadoc().toString());
@@ -867,6 +869,7 @@ public class InJavaImporter extends Importer {
 
 		}
 	}
+
 	private void createBasicComment(SourcedEntity entity, String content) {
 		Comment comment = new Comment();
 		comment.setContent(content);
@@ -924,12 +927,11 @@ public class InJavaImporter extends Importer {
 		if (Modifier.isVolatile(modifiers))
 			entity.addModifiers("volatile");
 		/*	We do not extract the static modifier here because we want to set the hasClassScope property
-			and we do that specifically only for attributes and methods */  
+			and we do that specifically only for attributes and methods */
 	}
 
-	
 	//EXPORT
-	
+
 	public void exportMSE(String fileName) {
 		try {
 			repository.exportMSE(new FileWriter(fileName));
@@ -937,16 +939,9 @@ public class InJavaImporter extends Importer {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	public void logNullBinding(String string, Object extraData, int lineNumber) {
-		logger.error("unresolved " + string +
-				" - " + extraData +
-				" - " + currentFilePath +
-				" - line " + lineNumber);
+		logger.error("unresolved " + string + " - " + extraData + " - " + currentFilePath + " - line " + lineNumber);
 	}
 
-
-	
 }
