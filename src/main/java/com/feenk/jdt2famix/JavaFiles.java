@@ -18,6 +18,10 @@ public class JavaFiles {
 		ignoredRootPath = "";
 	}
 
+	public Collection<String> getJavaFilePaths() {
+		return javaFilePaths;
+	}
+
 	public void deepJavaFiles(String rootPath) {
 		ignoredRootPath = rootPath;
 		File rootFile = new File(rootPath);
